@@ -113,4 +113,3 @@ public class AnimalsController : ControllerBase
         return Ok();
     }
 }
-}
