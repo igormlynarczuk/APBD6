@@ -50,7 +50,6 @@ public class AnimalsController : ControllerBase
         return Ok(animals);
     }
 
-
     [HttpPost]
     public IActionResult AddAnimal(AddAnimal addAnimal)
     {
@@ -71,4 +70,47 @@ public class AnimalsController : ControllerBase
         
         return Created("", null);
     }
+    
+    [HttpPut("{idAnimal:int}")]
+    public IActionResult EditAnimal(int idAnimal, EditAnimal editAnimal)
+    {
+        using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
+        connection.Open();
+
+        using SqlCommand command = new SqlCommand();
+        command.Connection = connection;
+        command.CommandText = "UPDATE Animal SET Name = @animalName, Description = @animalDescription, Category = @animalCategory, Area = @animalArea WHERE IdAnimal = @idAnimal";
+        command.Parameters.AddWithValue("@animalName", editAnimal.Name);
+        command.Parameters.AddWithValue("@animalDescription", string.IsNullOrWhiteSpace(editAnimal.Description) ? DBNull.Value : (object)editAnimal.Description);
+        command.Parameters.AddWithValue("@animalCategory", editAnimal.Category);
+        command.Parameters.AddWithValue("@animalArea", editAnimal.Area);
+        command.Parameters.AddWithValue("@idAnimal", idAnimal);
+
+        if (command.ExecuteNonQuery() == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok();
+    }
+
+    [HttpDelete("{idAnimal:int}")]
+    public IActionResult DeleteAnimal(int idAnimal)
+    {
+        using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
+        connection.Open();
+
+        using SqlCommand command = new SqlCommand();
+        command.Connection = connection;
+        command.CommandText = "DELETE FROM Animal WHERE IdAnimal = @idAnimal";
+        command.Parameters.AddWithValue("@idAnimal", idAnimal);
+
+        if (command.ExecuteNonQuery() == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok();
+    }
+}
 }
