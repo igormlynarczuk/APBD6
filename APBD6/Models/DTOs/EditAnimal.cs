@@ -1,10 +1,12 @@
 namespace DefaultNamespace;
 
-public class Animal
+public class EditAnimal
 {
-    public int IdAnimal { get; set; }
+    [Required]
     public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
+    [Required]
     public string Category { get; set; }
+    [Required]
     public string Area { get; set; }
 }

@@ -11,4 +11,12 @@ public class AddAnimal
     [MinLength(3)]
     [MaxLength(200)]
     public string? Description { get; set; }
+    [Required]
+    [MinLength(3)]
+    [MaxLength(200)]
+    public string Category { get; set; }
+    [Required]
+    [MinLength(3)]
+    [MaxLength(200)]
+    public string Area { get; set; }
 }
